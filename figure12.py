@@ -135,11 +135,7 @@ def jansenmodel(y,param,C):
 #columns that correspond to the number of steps we want to make. 
     
 #Random noise
-    mean=random.uniform(120,320)
-    std = 1 
-    num_samples = 1
-    noise = np.random.normal(mean, std, size=num_samples)
-    p=noise[0]
+    p=random.uniform(120,320)
     
     ydot = np.array([y[3],
                      y[4],
@@ -213,9 +209,8 @@ plt.suptitle('Figure 12. Grimbert')
 
 for i in range(0,len(cnst)):
     plt.subplot(6,1,i+1)
-    plt.plot(t,sol_cnst[i],label = str(cnst[i]))
-    plt.axhline(y=0, xmin=2, xmax=4)
-    plt.legend(loc = "upper right")
+    plt.plot(t,sol_cnst[i],label = "C="+str(cnst[i]))
+    plt.legend(loc = "lower right")
     plt.xlim(2,4)
     
     if i==0:

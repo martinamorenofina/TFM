@@ -96,25 +96,29 @@ def myrk4(fun, y0, t0, tf, dt):
 param = {"A":3.25, "B":22, "v0":6, "a":100, "b":50, "r":0.56, "e0":2.5}
 
 t0 = 0
-tf = 2.4
+tf = 10
 dt = 0.0001
 
 t=np.arange(t0,tf,dt)
 
 y0 = np.array([0,0,0,0,0,0])
+y0_e = np.array([0.1,18.0,12.0,0,0,0])
 
 #We make a list in order to put all solutions for the different cnsts
 C=135
 p_values=[50,100,125,200]
-sol_p=[]
+sol=[]
+sol_e=[]
 
 for i in range(0,len(p_values)):
     print(i)
     fun = lambda t, y : jansenmodel(y,param, C, p_values[i])
     y, t=myrk4(fun, y0, t0, tf, dt)
     act = y[1]-y[2]
-    sol_p.append(act)
-
+    y_e, t=myrk4(fun, y0_e, t0, tf, dt)
+    act_e = y_e[1]-y_e[2]
+    sol.append(act)
+    sol_e.append(act_e)
     
 #%%
 
@@ -123,8 +127,9 @@ plt.suptitle('Figure 25. Grimbert')
 for i in range(0,len(p_values)):
     plt.subplot(2,2,i+1)
     plt.title("p= " +str(p_values[i]), fontsize=10)
-    plt.plot(t,sol_p[i])
-    plt.xlim(1,2.4)
+    plt.plot(t,sol[i], color='red')
+    plt.plot(t,sol_e[i], color='green')
+    plt.xlim(8,10)
     plt.ylim(-2,12)
     plt.xlabel('t (s)', fontsize=10)
     
